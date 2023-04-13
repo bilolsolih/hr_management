@@ -13,11 +13,17 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 ALLOWED_HOSTS = ['*']
 
 # Application definition
-CUSTOM_APPS = [
-]
 
 THIRD_PARTY_APPS = [
     'jazzmin',
+    'phonenumber_field',
+]
+
+CUSTOM_APPS = [
+    'apps.common',
+    'apps.employees',
+    'apps.management',
+    'apps.projects'
 ]
 
 DJANGO_APPS = [
@@ -100,7 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'UTC+5'
 
 USE_I18N = True
 
