@@ -14,6 +14,13 @@ class Event(BaseModel):
         verbose_name = _('Event')
         verbose_name_plural = _('Events')
 
+    @property
+    def is_active(self):
+        if self.starts_at >= timezone.now():
+            return True
+        else:
+            return False
+
     def __str__(self):
         return f"Event {self.title}"
 
@@ -30,7 +37,7 @@ class Attendance(BaseModel):
     first_name = models.CharField(verbose_name=_('First name'), max_length=255, blank=True)
     last_name = models.CharField(verbose_name=_('Last name'), max_length=255, blank=True)
     position = models.CharField(verbose_name=_('Position'), max_length=255, blank=True)
-    date = models.DateField(default=timezone.now)
+    date = models.DateField(verbose_name=_('Date'), default=timezone.now)
     arrived_at = models.TimeField(verbose_name=_('Arrived at'), default=timezone.now)
 
     class Meta:
@@ -49,3 +56,41 @@ class Attendance(BaseModel):
 
     def __str__(self):
         return f"Attendance record for {self.full_name}"
+
+
+class Inventory(BaseModel):
+    title = models.CharField(verbose_name=_('Inventory title'), max_length=255)
+
+    # items
+
+    class Meta:
+        verbose_name = _('Inventory')
+        verbose_name_plural = _('Inventories')
+
+    def __str__(self):
+        return f"Inventory {self.title}"
+
+
+class Item(BaseModel):
+    inventory = models.ForeignKey(
+        verbose_name=_('Inventory'),
+        to='Management.Inventory',
+        related_name='items',
+        on_delete=models.SET_NULL,
+        null=True
+    )
+    title = models.CharField(verbose_name=_('Item name'), max_length=255)
+    amount = models.DecimalField(verbose_name=_('Amount'), max_digits=24, decimal_places=2, default=0)
+    description = models.TextField(verbose_name=_('Description'), null=True, blank=True)
+    price_per_unit = models.DecimalField(verbose_name=_('Price per unit'), max_digits=24, decimal_places=2, default=0)
+
+    class Meta:
+        verbose_name = _('Item')
+        verbose_name_plural = _('Items')
+
+    @property
+    def total_price(self):
+        return self.amount * self.price_per_unit
+
+    def __str__(self):
+        return f"Item {self.title} - {self.amount}"
