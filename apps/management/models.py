@@ -23,13 +23,15 @@ class Attendance(BaseModel):
         verbose_name=_('Employee'),
         to='employees.Employee',
         related_name='attendances',
+        unique_for_date='date',
         on_delete=models.SET_NULL,
         null=True
     )
     first_name = models.CharField(verbose_name=_('First name'), max_length=255, blank=True)
     last_name = models.CharField(verbose_name=_('Last name'), max_length=255, blank=True)
     position = models.CharField(verbose_name=_('Position'), max_length=255, blank=True)
-    arrived_at = models.DateTimeField(verbose_name=_('Arrived at'), default=timezone.now)
+    date = models.DateField(default=timezone.now)
+    arrived_at = models.TimeField(verbose_name=_('Arrived at'), default=timezone.now)
 
     class Meta:
         verbose_name = _('Attendance record')

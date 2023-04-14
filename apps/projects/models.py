@@ -13,8 +13,12 @@ class Team(BaseModel):
         verbose_name = _('Team')
         verbose_name_plural = _('Teams')
 
-    def __str__(self):
+    @property
+    def team_title(self):
         return f"Team {self.id} working on {self.project.title} project"
+
+    def __str__(self):
+        return self.team_title
 
     # project
 

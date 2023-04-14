@@ -8,6 +8,9 @@ from apps.common.models import BaseModel
 
 class Position(BaseModel):
     title = models.CharField(verbose_name=_('Position title'), max_length=255, unique=True)
+    job_description = models.TextField()
+
+    # employees
 
     class Meta:
         verbose_name = _('Position')
@@ -40,6 +43,24 @@ class Employee(BaseModel):
     @property
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
+
+    @property
+    def position_title(self):
+        return self.position.title
+
+    @property
+    def attendance_records(self):
+        records = self.attendances.all()
+        print(records)
+        return self.create_attendance_record(records)
+
+    @staticmethod
+    def create_attendance_record(records):
+        response = dict()
+        for record in records:
+            response[f"{record.date.year}-{record.date.month}-{record.date.day}"] = 9 * 60 - (record.arrived_at.hour * 60 + record.arrived_at.minute)
+            print(response)
+        return response
 
     def __str__(self):
         return self.full_name

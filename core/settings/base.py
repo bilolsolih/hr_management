@@ -1,3 +1,5 @@
+import rest_framework.permissions
+
 from ..jazzmin import *
 from pathlib import Path
 import os
@@ -17,6 +19,8 @@ ALLOWED_HOSTS = ['*']
 THIRD_PARTY_APPS = [
     'jazzmin',
     'phonenumber_field',
+    'rest_framework',
+    'drf_yasg'
 ]
 
 CUSTOM_APPS = [
@@ -106,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC+5'
+TIME_ZONE = 'Asia/Tashkent'
 
 USE_I18N = True
 
@@ -121,3 +125,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+}
