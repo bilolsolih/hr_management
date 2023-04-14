@@ -74,7 +74,7 @@ class Inventory(BaseModel):
 class Item(BaseModel):
     inventory = models.ForeignKey(
         verbose_name=_('Inventory'),
-        to='Management.Inventory',
+        to='management.Inventory',
         related_name='items',
         on_delete=models.SET_NULL,
         null=True
